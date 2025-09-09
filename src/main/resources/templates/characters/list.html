@@ -1,0 +1,54 @@
+<!-- characters/list.html -->
+<div id="characters" th:fragment="list">
+    <h2>Your Characters</h2>
+
+    <p th:if="${charactersPage.totalElements == 0}" style="margin:0 0 .5rem 0;">
+        No characters yet.
+        <a class="btn" th:href="@{/characters/new}" style="margin-left:.5rem;">Create Character</a>
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Updated</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Real rows -->
+            <tr th:each="c : ${charactersPage.content}">
+                <td>
+                    <a th:href="@{/characters/{id}(id=${c.id})}" th:text="${c.name}">Character Name</a>
+                </td>
+                <td th:text="${#temporals.format(c.updatedAt, 'yyyy-MM-dd HH:mm')}">2025-09-08 12:34</td>
+            </tr>
+
+            <!-- Placeholder rows to keep a fixed 10-row height -->
+            <tr th:if="${charactersPage.numberOfElements < 10}"
+                th:each="i : ${#numbers.sequence(1, 10 - charactersPage.numberOfElements)}">
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="pager" style="display:flex;gap:.5rem;align-items:center;">
+        <button th:disabled="${charactersPage.first}"
+            hx-get="@{/characters/fragment(page=${charactersPage.number - 1})}" hx-target="#characters"
+            hx-swap="outerHTML">
+            ‹ Prev
+        </button>
+
+        <span
+            th:text="'Page ' + (${charactersPage.number}+1) + ' of ' + (${charactersPage.totalPages == 0 ? 1 : charactersPage.totalPages})">Page</span>
+
+        <button th:disabled="${charactersPage.last}" hx-get="@{/characters/fragment(page=${charactersPage.number + 1})}"
+            hx-target="#characters" hx-swap="outerHTML">
+            Next ›
+        </button>
+
+        <!-- Non-HTMX fallback links -->
+        <a th:if="${!charactersPage.first}" th:href="@{/(page=${charactersPage.number - 1})}">Prev</a>
+        <a th:if="${!charactersPage.last}" th:href="@{/(page=${charactersPage.number + 1})}">Next</a>
+    </div>
+</div>

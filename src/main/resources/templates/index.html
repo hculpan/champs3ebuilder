@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Champions 3e Builder</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="header-inner page-wrapper">
+            <div class="brand">
+                <img th:src="@{/images/champ_3e_builder_logo.png}" alt="Champions 3e logo">
+                <span>Champions 3e Builder</span>
+            </div>
+            <nav class="nav-actions">
+                <form th:action="@{/logout}" method="post" style="margin:0">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <button type="submit" class="btn">Sign out</button>
+                </form>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Content -->
+    <main class="container page-wrapper" style="padding: 2rem 0;">
+        <h1>Hello World</h1>
+        <p>This is the home page content area.</p>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="page-wrapper">
+            © <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2025</span>
+            Champions 3e Builder • Crafted with Spring Boot
+        </div>
+    </footer>
+</body>
+
+</html>
